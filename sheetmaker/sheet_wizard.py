@@ -63,17 +63,7 @@ class SheetWizard(object):
 
     def menu_language(self):
         """Displays language selector"""
-        print("Choose your language:")
-        options = { 1: "English",
-                    2: "Español",
-                  }
-        answer = self.input_handler(options)
-        if answer == "1":
-            self.lang_strings = language_strings.english
-        elif answer == "2":
-            self.lang_strings = language_strings.espanol
-        else:
-            return(self.menu_language())
+        self.lang_strings = language_strings.french
 
 
     def intro(self):
@@ -91,17 +81,11 @@ class SheetWizard(object):
         print(self.lang_strings["MENU_MESSAGE"])
         options = { 1: self.lang_strings["MAIN_MENU_OPTIONS"][1],
                     2: self.lang_strings["MAIN_MENU_OPTIONS"][2],
-                    3: self.lang_strings["MAIN_MENU_OPTIONS"][3],
-                    4: self.lang_strings["MAIN_MENU_OPTIONS"][4],
                   }
         answer = self.input_handler(options)
         if answer == "1":
             self.config_sheet()
         elif answer == "2":
-            self.export() #not coded yet
-        elif answer == "3":
-            self.help() #not coded yet
-        elif answer == "4":
             self.end()
         else:
             print(self.lang_strings["INVALID_INPUT_MESSAGE"])
@@ -158,31 +142,23 @@ class SheetWizard(object):
         """Displays header options selector"""
         print("##################################################################")
         print(self.lang_strings["HEADER_MESSAGE"])
-        options = { 1: self.lang_strings["HEADER_OPTIONS"][1],
+        options = { 1: self.lang_strings["HEADER_OPTIONS1"][1],
                   }
         author_name = self.input_handler(options)
-        new_html = self.NewSheet.build_header(author_name)
+        options = { 1: self.lang_strings["HEADER_OPTIONS2"][1],
+                  }
+        sponsor_name = self.input_handler(options)
+        options = { 1: self.lang_strings["HEADER_OPTIONS3"][1],
+          }
+        sponsor_web = self.input_handler(options)
+        new_html = self.NewSheet.build_header(author_name, sponsor_name, sponsor_web)
         self.NewSheet.update_html_file(new_html)
         self.add_footer()
 
 
     def add_footer(self):
         """Displays footer options selector"""
-        print("##################################################################")
-        print(self.lang_strings["FOOTER_MESSAGE"])
-        options = { 1: self.lang_strings["FOOTER_OPTIONS1"][1],
-                  }
-        author_picture = self.input_handler(options)
-        options = { 1: self.lang_strings["FOOTER_OPTIONS2"][1],
-                  }
-        author_web = self.input_handler(options)
-        options = { 1: self.lang_strings["FOOTER_OPTIONS3"][1],
-                  }
-        sponsor_name = self.input_handler(options)
-        options = { 1: self.lang_strings["FOOTER_OPTIONS4"][1],
-                  }
-        sponsor_web = self.input_handler(options)
-        new_html = self.NewSheet.build_footer(author_picture, author_web, sponsor_name, sponsor_web)
+        new_html = self.NewSheet.build_footer()
         self.NewSheet.update_html_file(new_html)
         self.add_block()
     
@@ -214,7 +190,7 @@ class SheetWizard(object):
         print(self.lang_strings["BLOCK_ROWS_MESSAGE2"])
         options = {}
         for i in range(self.columns):
-            options[i+1] = str(i+1) + " main column"        
+            options[i+1] = "{0} {1}".format(str(i+1), self.lang_strings["TEXT_BLOCK_EXTRA"])
         column_selected = self.input_handler(options)
         if column_selected in ("1","2","3"):
             column_selected = int(column_selected)

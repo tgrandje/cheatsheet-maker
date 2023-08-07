@@ -94,7 +94,7 @@ class HtmlSheet(object):
         return(html, "<!-- columns -->")
 
 
-    def build_header(self, author_name):
+    def build_header(self, author_name, sponsor_name, sponsor_web):
         """Creates html header.
 
         Args:   
@@ -102,11 +102,11 @@ class HtmlSheet(object):
 
         """
         self.author_name = author_name
-        html = constants.HEADER.format(self.title, self.author_name)
+        html = constants.HEADER.format(self.title, author_name, sponsor_name, sponsor_web)
         return(html, "<!-- header -->")
 
 
-    def build_footer(self, author_picture, author_web, sponsor_name, sponsor_web):
+    def build_footer(self):
         """Creates html footer.
 
         Args:
@@ -115,11 +115,7 @@ class HtmlSheet(object):
             sponsor_name (str): Name displayed in footer.
             sponsor_web (str): Url displayed in footer.
         """
-        self.author_picture = author_picture
-        self.author_web = author_web
-        self.sponsor_name = sponsor_name
-        self.sponsor_web = sponsor_web
-        html = constants.FOOTER.format(self.author_picture, self.author_name, self.author_web, self.date, self.sponsor_name, self.sponsor_web)
+        html = constants.FOOTER.format(self.date)
         return(html, "<!-- footer -->")  
 
     
@@ -168,11 +164,11 @@ class HtmlSheet(object):
         new_html = html_to_add[0]
         from_here = html_to_add[1]
         if from_here:
-            with open(self.title + ".html", 'r') as sheet:
+            with open(self.title + ".html", 'r', encoding="utf8") as sheet:
                 html = (sheet.read())
                 html = html.replace(from_here, new_html + " " + from_here)
         else:
             html = new_html
-        with open(self.title + ".html", 'w') as sheet:
+        with open(self.title + ".html", 'w', encoding="utf8") as sheet:
             sheet.write(html)
 
