@@ -34,11 +34,11 @@ EMPTY_SHEET = """<!DOCTYPE html>
 <script>
     var div_copy = $('*.copy'), k = 0;
     div_copy.each(
-    function(){
+    function(){{
         k += 1;
         $(this).attr('id', 'copy'+k);
         $(this).append('<button class="btn_copy no-print" data-clipboard-target="#copy' + k + '"><i class="fa-regular fa-clipboard"></i></button>');
-    });
+    }});
 </script>"""
 
 
